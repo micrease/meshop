@@ -1,0 +1,26 @@
+service:
+  # 微服务名
+  service_name: meshop-product-service
+  # 服务端口0.0.0.0表示不限网络，127.0.0.1仅限本机,192.168.1.2 内网
+  listen_host: "0.0.0.0:8004"
+  # 运行环境
+  env: dev
+  # 服务版本
+  version: 1.0.2
+  # 配置方式local,consul,auto
+  config_type: consul
+consul:
+  addrs: 139.198.191.83:8500
+  config_path: /meshop/shop-product-service/dev.yaml
+database:
+  # 数据库-主库
+  driver: mysql
+  dsn: root:123456@(127.0.0.1)/db_micro_product?charset=utf8&parseTime=True&loc=Local
+  max_idle_conns: 10
+  max_open_conns: 50
+redis:
+  network: tcp
+  addr: 127.0.0.1
+  prot: 6379
+  password: ''
+  prefix: ''

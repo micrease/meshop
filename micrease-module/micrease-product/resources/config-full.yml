@@ -1,0 +1,46 @@
+service:
+  # 微服务名
+  service_name: micro.rpc-service.product
+  # 服务端口
+  port: 8004
+  # 运行环境
+  mode: dev
+  # 服务版本
+  version: 1.0.2
+  # 配置方式local,nacos,auto
+  config_type: local
+nacos:
+  # 注册中心
+  addrs: 139.198.170.82:8848
+  namespace_id: public
+  data_id: dev
+  group: DEFAULT_GROUP
+#多库配置
+datasource:
+  names: [ master,slave,db1,db2 ],
+  master:
+    driver: mysql
+    dsn: root:123456@(127.0.0.1)/db_micro_product?charset=utf8&parseTime=True&loc=Local
+    max_idle_conns: 10
+    max_open_conns: 50
+  slave:
+    driver: mysql
+    dsn: root:123456@(127.0.0.1)/db_micro_product?charset=utf8&parseTime=True&loc=Local
+    max_idle_conns: 10
+    max_open_conns: 50
+  db1:
+    driver: mysql
+    dsn: root:123456@(127.0.0.1)/db_micro_product?charset=utf8&parseTime=True&loc=Local
+    max_idle_conns: 10
+    max_open_conns: 50
+  db2:
+    driver: mysql
+    dsn: root:123456@(127.0.0.1)/db_micro_product?charset=utf8&parseTime=True&loc=Local
+    max_idle_conns: 10
+    max_open_conns: 50
+redis:
+  net_work: tcp
+  addr: 127.0.0.1
+  prot: 6379
+  password: ''
+  prefix: ''

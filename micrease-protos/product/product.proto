@@ -1,0 +1,90 @@
+syntax = "proto3";
+
+package product;
+
+//命名规范:https://go-kratos.dev/docs/guide/api-protobuf
+option go_package = "github.com/micrease/meshop/micrease-protos/pb/product;product";
+
+//导入公共proto
+//import "header/header.proto";
+import "google/api/annotations.proto";
+
+//protoc -I ./  --go_out=paths=source_relative:pb/  --micro_out=plugins=micro,paths=source_relative:pb/  product/*.proto
+service ProductService {
+  rpc Create (ProductInsertReq) returns (ProductResp){
+    option (google.api.http) = {
+      post: "/v1/product/add"
+      body:"*"
+    };
+  };
+  //{option (google.api.http) = {post: "/hello";body: "*";}
+  rpc Delete (ProductDeleteReq) returns (ProductResp);
+  rpc Update (ProductUpdateReq) returns (ProductResp);
+  rpc Detail (ProductDetailReq) returns (ProductResp){
+    option (google.api.http) = {
+      get: "/v1/product/detail/{id}"
+    };
+  };
+  rpc PageList (ProductPageReq) returns (ProductPageResp);
+}
+
+//定义一个通用的message
+message Product {
+  int32 id = 1;
+  string name = 2;
+  float price = 3;
+}
+
+//Insert
+message ProductInsertReq {
+  string name = 1;
+  float price = 2;
+}
+
+//Update
+message ProductUpdateReq {
+  int32 id = 1;
+  string name = 2;
+  float price = 3;
+}
+
+//Delete
+message ProductDeleteReq {
+  int32 id = 1;
+}
+
+//Select
+message ProductDetailReq {
+  int32 id = 1;
+}
+
+message PageResult{
+  int32 total_size = 1 [json_name = 'total_size'];
+  int32 total_sage = 2 [json_name = 'total_page'];
+  int32 page_no = 3 [json_name = 'page_no'];
+  int32 page_size = 4 [json_name = 'page_size'];
+  repeated Product list = 5;
+}
+
+message ProductResp {
+  //商品信息
+  Product data = 1;
+}
+
+
+message ProductPageReq {
+  int32 page_no = 1[json_name = 'page_no'];
+  int32 page_size = 2[json_name = 'page_size'];
+  int32 id = 3;
+  string name = 4;
+  float min_price = 5[json_name = 'min_price'];
+  float max_price = 6[json_name = 'max_price'];
+}
+
+//响应
+message ProductPageResp {
+  //以下为返回结构
+  repeated Product data = 1;
+}
+
+
